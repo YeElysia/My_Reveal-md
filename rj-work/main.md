@@ -26,8 +26,8 @@ revealOptions:
 2. 金思睿： 训练UI设计 + 程序编写
 3. 郑诚： 数据集整理 + 文档编写 
 
-<div style="display: flex; justify-content: center;">
-   <img src="doc/签名.png" style="height: 600px; margin-right: 24px;">
+<div style="display: flex; justif-content: center;">
+   <img src="doc/name.png" style="height: 600px; margin-right: 24px;">
 </div>
 
 
