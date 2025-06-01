@@ -27,7 +27,7 @@ revealOptions:
 3. 郑诚： 数据集整理 + 文档编写 
 
 <div style="display: flex; justify-content: center;">
-   <img src="doc/name.png" style="height: 600px; margin-right: 24px;">
+   <img src="./doc/name.png" style="height: 600px; margin-right: 24px;">
 </div>
 
 
@@ -69,7 +69,7 @@ revealOptions:
 
 <div style="display: flex; align-items: center;">
 
-  <img src="doc/Lidar.png" style="height: 600px; margin-right: 24px;">
+  <img src="./doc/Lidar.png" style="height: 600px; margin-right: 24px;">
   <div style="width: 1200px;text-align:left">
     雷达可自主获取战场信息，并通过多机通信向己方机器人或裁判系统选手端发送信息。<br>
     <br>
@@ -281,8 +281,8 @@ def model_evaluate(
 
 <!--v-->
 <div style="display: flex; align-items: center;">
-  <img src="doc/results.png" style="height: 600px; margin:64px">
-  <img src="doc/val_batch2_pred.jpg" style="height: 600px; margin:64px">
+  <img src="./doc/results.png" style="height: 600px; margin:64px">
+  <img src="./doc/val_batch2_pred.jpg" style="height: 600px; margin:64px">
 </div>
 
 <!--s-->
