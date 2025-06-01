@@ -20,6 +20,19 @@ revealOptions:
 
 <!--v-->
 
+## 相关贡献
+
+1. 叶畅飞： 训练程序 + 最后演示程序
+2. 金思睿： 训练UI设计 + 程序编写
+3. 郑诚： 数据集整理 + 文档编写 
+
+<div style="display: flex; justify-content: center;">
+   <img src="doc/签名.png" style="height: 600px; margin-right: 24px;">
+</div>
+
+
+
+<!--v-->
 1. 背景介绍
 2. 代码分析
 3. 模型评价
