@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第十一章: 自然语言处理建模 (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html">Ch2-系统基础</a>
+        <a href="chapter_03.html">Ch3-开发基础</a>
+        <a href="chapter_04.html">Ch4-问题求解</a>
+        <a href="chapter_05.html">Ch5-回归与分类</a>
+        <a href="chapter_06.html">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html" class="active">Ch11-NLP</a>
+        <a href="chapter_12.html">Ch12-LLM</a>
+        <a href="chapter_13.html">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第十一章: 自然语言处理建模 (详细资料)</h1>
+
+            <div class="collapsible" id="kp-nlp-overview">
+                <h2>11.1 NLP概述与技术基础</h2>
+            </div>
+            <div class="content">
+                <p>自然语言处理（Natural Language Processing, NLP）是人工智能和计算机科学领域的一个分支，致力于让计算机能够理解、解释、生成和响应人类语言。</p>
+                <h3>文本表示 (Text Representation)</h3>
+                <p>计算机无法直接处理文本，必须先将其转换为数值向量。这是NLP的第一步，也是最基础的一步。</p>
+                <ul>
+                    <li><strong>词袋模型 (Bag of Words, BoW)</strong>：一种简单的表示方法，它忽略文本的语法和词序，仅将其视为一个“装着词的袋子”，并统计每个词在文本中出现的次数（词频）。</li>
+                    <li><strong>TF-IDF (Term Frequency-Inverse Document Frequency)</strong>：词袋模型的改进。它认为一个词的重要性与它在当前文档中出现的频率成正比（TF），但与它在整个语料库中出现的频率成反比（IDF）。TF-IDF值高的词通常是该文档的关键词。</li>
+                    <li><span class="key-term">词嵌入 (Word Embedding)</span>：现代NLP的核心技术。它将词语映射到一个低维、稠密的连续向量空间。其核心思想是：<span class="key-term">语义相近的词，其在向量空间中的距离也相近</span>。这使得模型能够理解词语之间的语义关系。</li>
+                </ul>
+                <h3>文本相似度计算</h3>
+                <p>将文本转换为向量后，可以通过计算向量间的相似度来衡量文本的相似性。</p>
+                <ul>
+                    <li><strong>欧氏距离 (Euclidean Distance)</strong>：计算向量空间中两点的直线距离。距离越小，文本越相似。</li>
+                    <li><span class="key-term">余弦相似度 (Cosine Similarity)</span>：计算两个向量夹角的余弦值。其值域为[-1, 1]。值越接近1，代表两个向量方向越一致，文本越相似。它<span class="key-term">只关注方向，与向量的大小（即文本长度）无关</span>，因此在NLP中被广泛使用。</li>
+                </ul>
+            </div>
+
+            <div class="collapsible" id="kp-classic-nlp-models">
+                <h2>11.2 经典NLP模型</h2>
+            </div>
+            <div class="content">
+                <h3>Word2Vec</h3>
+                <p>Word2Vec是Google在2013年推出的一个高效的词嵌入训练工具。它包含两种主要的模型架构：</p>
+                <ul>
+                    <li><span class="key-term">CBOW (Continuous Bag-of-Words)</span>：根据一个词的上下文（周围的词）来<span class="key-term">预测中心词</span>。它对上下文信息进行了平滑处理，训练速度更快。</li>
+                    <li><span class="key-term">Skip-gram</span>：根据一个中心词来<span class="key-term">预测其上下文</span>。它在处理少量数据和罕见词时表现更好。</li>
+                </ul>
+                <div class="img-placeholder">[此处应插入图片：CBOW与Skip-gram的模型结构对比图]</div>
+
+                <h3>Seq2Seq (Sequence-to-Sequence)</h3>
+                <p>Seq2Seq模型主要用于处理一个序列输入，并生成另一个序列输出的任务，如机器翻译、对话系统等。它通常由两个RNN（或LSTM/GRU）组成：</p>
+                <ul>
+                    <li><strong>编码器 (Encoder)</strong>：负责读取并理解整个输入序列，将其压缩成一个固定长度的上下文向量（Context Vector），这个向量被认为是输入序列的语义表示。</li>
+                    <li><strong>解码器 (Decoder)</strong>：接收编码器生成的上下文向量，并逐个生成输出序列中的元素。</li>
+                </ul>
+                <p><strong>局限性</strong>：将整个输入序列压缩成一个固定长度的向量会成为信息瓶颈，特别是对于长序列，容易丢失信息。</p>
+            </div>
+
+            <div class="collapsible" id="kp-transformer">
+                <h2>11.3/11.4 Transformer架构</h2>
+            </div>
+            <div class="content">
+                <p>Transformer模型于2017年在论文《Attention Is All You Need》中被提出，是NLP领域的一场革命，也是当前所有大语言模型（如GPT、BERT）的基础。</p>
+                <h3>核心特点</h3>
+                <ul>
+                    <li><strong>完全抛弃循环结构</strong>：与RNN不同，Transformer不使用循环连接，而是完全依赖<span class="key-term">自注意力机制</span>来处理序列，这使得模型可以<span class="key-term">大规模并行计算</span>，极大地提高了训练效率。</li>
+                    <li><strong>自注意力机制 (Self-Attention)</strong>：这是Transformer的核心。在为一个词生成表示时，自注意力机制能够计算该词与序列中所有其他词的“相关性得分”，然后根据这些得分，对所有词的表示进行加权求和。这使得模型能够动态地关注序列中最相关的部分，从而更好地捕捉长距离依赖关系。</li>
+                    <li><strong>多头注意力 (Multi-Head Attention)</strong>：通过并行地运行多个自注意力“头”，并将它们的结果拼接起来，模型可以从不同的表示子空间中共同学习信息，增强了模型的表达能力。</li>
+                    <li><strong>位置编码 (Positional Encoding)</strong>：由于Transformer没有循环结构，它本身无法感知词的顺序。因此，需要在词嵌入中加入一个代表位置信息的“位置编码”向量，以保留序列的语序。</li>
+                </ul>
+                <div class="img-placeholder">[此处应插入图片：Transformer的整体架构图，展示编码器和解码器的堆叠结构，见课件第 174 页]</div>
+                <h3>Transformer的结构类型</h3>
+                <p>完整的Transformer包含编码器和解码器，但根据任务的不同，也可以只使用其中一部分，形成了三种主流结构：</p>
+                <ol>
+                    <li><strong>仅编码器 (Encoder-only)</strong>：如BERT模型。它能很好地理解整个句子的双向上下文信息，特别适合文本分类、命名实体识别等<span class="key-term">自然语言理解（NLU）</span>任务。</li>
+                    <li><strong>仅解码器 (Decoder-only)</strong>：如GPT系列模型。它采用自回归（auto-regressive）的方式，根据已经生成的部分来预测下一个词，特别适合<span class="key-term">自然语言生成（NLG）</span>任务，如文本续写、对话。</li>
+                    <li><strong>编码器-解码器 (Encoder-Decoder)</strong>：如原始的Transformer模型和T5模型。它适用于一个序列到另一个序列的转换任务，如<span class="key-term">机器翻译</span>、文本摘要。</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+            
+            // KaTeX rendering
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ]
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

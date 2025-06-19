@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第九章: 循环神经网络(RNN) (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html">Ch2-系统基础</a>
+        <a href="chapter_03.html">Ch3-开发基础</a>
+        <a href="chapter_04.html">Ch4-问题求解</a>
+        <a href="chapter_05.html">Ch5-回归与分类</a>
+        <a href="chapter_06.html">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html" class="active">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html">Ch11-NLP</a>
+        <a href="chapter_12.html">Ch12-LLM</a>
+        <a href="chapter_13.html">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第九章: 循环神经网络(RNN) (详细资料)</h1>
+
+            <div class="collapsible" id="kp-rnn-overview">
+                <h2>9.1 RNN概述</h2>
+            </div>
+            <div class="content">
+                <p>循环神经网络（Recurrent Neural Network, RNN）是一种专门用于处理<span class="key-term">序列数据</span>的神经网络。与CNN专注于处理网格状数据（如图像）不同，RNN的核心优势在于其能够捕捉和利用序列中的<span class="key-term">时间或顺序依赖性信息</span>。</p>
+                <h3>RNN的核心结构：循环与记忆</h3>
+                <p>RNN与前馈神经网络（如MLP、CNN）最根本的区别在于其内部具有<span class="key-term">循环连接</span>。这个循环结构使得网络在处理当前时间步的数据时，能够利用上一个时间步的信息，从而拥有了“记忆”能力。</p>
+                <p>在任意时间步 $t$，RNN单元接收两个输入：</p>
+                <ul>
+                    <li>当前时刻的输入 $x_t$。</li>
+                    <li>上一时刻的隐藏状态 $h_{t-1}$。</li>
+                </ul>
+                <p>然后，它计算出两个输出：</p>
+                <ul>
+                    <li>当前时刻的输出 $y_t$。</li>
+                    <li>当前时刻的隐藏状态 $h_t$，这个状态将被传递给下一个时间步 $t+1$。</li>
+                </ul>
+                <div class="img-placeholder">[此处应插入图片：RNN的折叠式循环结构图和按时间步展开的结构图，见课件第 344 页]</div>
+                <p>在按时间步展开的视图中，可以清晰地看到信息是如何在序列中传递的。值得注意的是，所有时间步<span class="key-term">共享同一套权重参数</span> (W, H, V)，这极大地减少了模型需要学习的参数量，并使得模型可以处理任意长度的序列。</p>
+            </div>
+
+            <div class="collapsible" id="kp-rnn-problems">
+                <h2>9.2 RNN的问题：长期依赖</h2>
+            </div>
+            <div class="content">
+                <p>理论上，RNN的记忆能力可以追溯到序列的任意起点。然而在实践中，标准RNN很难学习到序列中相距较远元素之间的依赖关系，这个问题被称为<span class="key-term">“长期依赖”（Long-Term Dependencies）问题</span>。</p>
+                <p>这个问题的根源在于训练RNN时使用的“沿时间反向传播”（BPTT）算法。在反向传播过程中，梯度需要穿越很长的时间步。这个过程中，梯度会与权重矩阵进行连乘，这可能导致：</p>
+                <ul>
+                    <li><strong>梯度消失 (Vanishing Gradients)</strong>：如果梯度值持续小于1，经过多次连乘后，梯度会迅速衰减至接近于0。这使得来自遥远过去的误差信号无法有效地传递回当前，导致网络无法学习到长期依赖。这是最常见的问题。</li>
+                    <li><strong>梯度爆炸 (Exploding Gradients)</strong>：如果梯度值持续大于1，梯度会指数级增长，导致训练过程不稳定甚至崩溃。这个问题相对容易通过梯度裁剪等技术来解决。</li>
+                </ul>
+                <p>由于梯度消失问题，标准RNN的记忆是“短暂的”，很难记住很久以前发生过的事情。</p>
+            </div>
+
+            <div class="collapsible" id="kp-lstm">
+                <h2>9.3 长短期记忆网络 (LSTM)</h2>
+            </div>
+            <div class="content">
+                <p>长短期记忆网络（Long Short-Term Memory, LSTM）是RNN的一种特殊变体，由Hochreiter和Schmidhuber于1997年提出，专门设计用来解决长期依赖问题。</p>
+                <h3>LSTM的核心机制：细胞状态与门控</h3>
+                <p>LSTM的成功关键在于其引入了<span class="key-term">细胞状态 (Cell State)</span> 和三个精巧的<span class="key-term">门控机制 (Gating Mechanism)</span>。</p>
+                <div class="img-placeholder">[此处应插入图片：单个LSTM单元的内部结构图，清晰标出三个门和细胞状态，见课件第 350 页]</div>
+                <ul>
+                    <li><strong>细胞状态 ($C_t$)</strong>：可以看作是LSTM的“记忆传送带”。信息可以在细胞状态上一直流动，只进行一些微小的线性操作，这使得信息能够很容易地在序列中保持不变。</li>
+                    <li><strong>门控机制</strong>：LSTM通过三个“门”来精细地控制信息的添加和移除，从而保护和控制细胞状态。这些门是由Sigmoid激活函数和逐元素乘法运算构成的，可以决定让0到1之间的多少信息通过。
+                        <ol>
+                            <li><span class="key-term">遗忘门 (Forget Gate)</span>：决定从上一个细胞状态 $C_{t-1}$ 中<span class="key-term">丢弃</span>哪些旧信息。它查看 $h_{t-1}$ 和 $x_t$ 来做出决定。</li>
+                            <li><span class="key-term">输入门 (Input Gate)</span>：决定将哪些<span class="key-term">新信息</span>存入细胞状态。它包含两部分：一个Sigmoid层决定要更新哪些值，一个tanh层创建一个候选值向量。</li>
+                            <li><span class="key-term">输出门 (Output Gate)</span>：决定从细胞状态中<span class="key-term">输出</span>哪些信息。输出的隐藏状态 $h_t$ 是经过tanh激活和输出门过滤后的细胞状态。</li>
+                        </ol>
+                    </li>
+                </ul>
+                <p>正是通过这些门的协同工作，LSTM能够有选择地记忆、遗忘和输出信息，从而有效地捕捉序列中的长期依赖关系，极大地缓解了梯度消失问题。</p>
+            </div>
+            
+            <div class="collapsible" id="kp-other-rnns">
+                <h2>9.4 其他循环神经网络变体</h2>
+            </div>
+            <div class="content">
+                <p>除了LSTM，还有一些其他重要的RNN变体。</p>
+                <ul>
+                    <li><strong>GRU (Gated Recurrent Unit)</strong>：门控循环单元，是LSTM的一个简化版本。它将遗忘门和输入门合并为一个“更新门”，并且合并了细胞状态和隐藏状态。GRU的参数比LSTM少，计算效率更高，在许多任务上能达到与LSTM相当的性能。</li>
+                    <li><strong>双向RNN (Bidirectional RNN, Bi-RNN)</strong>：它由两个独立的RNN组成，一个按正常顺序处理序列（从前到后），另一个按相反顺序处理序列（从后到前）。在任何时间点 $t$，输出都同时依赖于过去和未来的信息。这对于需要完整上下文的任务（如句子情感分析、命名实体识别）非常有效。</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+            
+            // KaTeX rendering
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ]
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

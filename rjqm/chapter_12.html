@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第十二章: 大语言模型与生成式AI (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html">Ch2-系统基础</a>
+        <a href="chapter_03.html">Ch3-开发基础</a>
+        <a href="chapter_04.html">Ch4-问题求解</a>
+        <a href="chapter_05.html">Ch5-回归与分类</a>
+        <a href="chapter_06.html">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html">Ch11-NLP</a>
+        <a href="chapter_12.html" class="active">Ch12-LLM</a>
+        <a href="chapter_13.html">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第十二章: 大语言模型与生成式人工智能 (详细资料)</h1>
+
+            <div class="collapsible" id="kp-llm-concepts">
+                <h2>12.1 核心概念辨析</h2>
+            </div>
+            <div class="content">
+                <p>随着技术的发展，出现了许多容易混淆的术语，理解它们的精确含义非常重要。</p>
+                <ul>
+                    <li>
+                        <strong>AIGC vs. GAI</strong>
+                        <ul>
+                            <li><span class="key-term">AIGC (AI-Generated Content)</span>：人工智能生成内容。这是一个广义概念，侧重于最终产出的<span class="key-term">内容</span>是由AI创造的，而非从数据库中搜索出来的。</li>
+                            <li><span class="key-term">GAI (Generative AI)</span>：生成式人工智能。这个概念侧重于AI系统本身所具备的<span class="key-term">功能和特点</span>，即它是一种能够生成新内容的AI技术。两者经常混用，但侧重点有别。</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>GPT vs. ChatGPT</strong>
+                        <ul>
+                            <li><span class="key-term">GPT (Generative Pre-trained Transformer)</span>：指一种特定的<span class="key-term">模型架构</span>。它是一种基于Transformer解码器、经过生成式预训练的大语言模型。这是底层的技术。</li>
+                            <li><span class="key-term">ChatGPT</span>：指一个具体的<span class="key-term">应用产品</span>。它是OpenAI公司基于其GPT模型（如GPT-3.5, GPT-4）开发并经过对话任务微调后，面向公众推出的聊天机器人服务。</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>GAI vs. AGI</strong>
+                        <ul>
+                            <li><span class="key-term">GAI (Generative AI)</span>：生成式人工智能，是我们目前已经实现并广泛应用的一种AI技术，它擅长在特定领域（如文本、图像）生成内容。</li>
+                            <li><span class="key-term">AGI (Artificial General Intelligence)</span>：通用人工智能。这是一个更具前瞻性的、目前尚未实现的<span class="key-term">理论目标</span>。AGI指的是具备与人类同等智慧，能够在各种不同领域和任务上进行学习、推理和解决问题的AI系统，它要求任务无关、领域无关。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapsible" id="kp-pretrain-finetune">
+                <h2>12.2 预训练与微调 (Pre-training & Fine-tuning)</h2>
+            </div>
+            <div class="content">
+                <p>“预训练-微调”是当前大语言模型取得成功的<span class="key-term">核心技术范式</span>，它极大地提高了AI模型的开发效率和应用范围。</p>
+                <div class="img-placeholder">[此处应插入图片：预训练和微调的过程示意图，例如课件第 37 页的图]</div>
+                <h3>第一阶段：预训练 (Pre-training)</h3>
+                <ul>
+                    <li><strong>目标</strong>：让模型学习通用的、广泛的语言知识和世界知识。</li>
+                    <li><strong>数据</strong>：使用海量的、无标签的通用文本数据（如互联网网页、书籍、代码等）。</li>
+                    <li><strong>方法</strong>：通常采用自监督学习的方式，例如“掩码语言模型”（像BERT）或“下一个词预测”（像GPT）。</li>
+                    <li><strong>特点</strong>：计算成本极高，需要数千块GPU训练数月，通常只有大型科技公司或研究机构才能承担。产出的是一个通用的“基础模型”。</li>
+                </ul>
+                <h3>第二阶段：微调 (Fine-tuning)</h3>
+                <ul>
+                    <li><strong>目标</strong>：让已经具备通用能力的基础模型，去<span class="key-term">适应和专精于某个特定的任务或领域</span>。</li>
+                    <li><strong>数据</strong>：使用规模小得多、针对特定任务的、有标签的专用数据集。例如，如果要让模型成为医疗问答助手，就需要用高质量的医疗问答对数据进行微调。</li>
+                    <li><strong>方法</strong>：在预训练好的模型权重基础上，用新数据继续进行训练，但通常使用更小的学习率。</li>
+                    <li><strong>特点</strong>：成本相对低廉，效率高。这是绝大多数开发者和企业利用大模型能力的主要方式。例如，将一个开源的LLM（如Llama 3）在金融领域的数据上进行微调，就能快速得到一个专业的金融助手。</li>
+                </ul>
+            </div>
+
+            <div class="collapsible" id="kp-llm-features">
+                <h2>12.3 大语言模型(LLM)的特点与局限</h2>
+            </div>
+            <div class="content">
+                <h3>LLM中“大”的含义</h3>
+                <p>大语言模型的“大”，主要体现在三个方面： </p>
+                <ul>
+                    <li><span class="key-term">训练数据庞大</span>：训练数据量通常达到TB级别，包含了海量的文本和代码。</li>
+                    <li><span class="key-term">参数规模巨大</span>：模型的参数（即网络中的权重）数量极其庞大，从数十亿到数万亿不等。</li>
+                    <li><span class="key-term">训练耗资巨大</span>：巨大的参数量和数据量导致训练过程需要极高的算力，成本动辄数百万甚至上亿美元。</li>
+                </ul>
+                <h3>LLM的局限性</h3>
+                <p>尽管LLM能力强大，但远非完美，存在一些固有局限性，使用时必须保持批判性思维。</p>
+                <ul>
+                    <li><span class="key-term">AI幻觉 (Hallucination)</span>：这是LLM最著名的问题之一。模型可能会生成看似非常流畅、自信，但实际上完全错误或凭空捏造的信息。因此，不能完全信任其生成内容的真实性。</li>
+                    <li><strong>知识截止 (Knowledge Cutoff)</strong>：预训练模型只掌握了其训练数据截止日期之前的信息，对之后发生的新事件一无所知。</li>
+                    <li><strong>随机性 (Stochasticity)</strong>：由于在生成文本时采用了随机采样策略，即使对同一个输入提示，模型每次的输出也可能不完全相同。这保证了多样性，但也意味着结果并非确定性的。</li>
+                    <li><strong>偏见 (Bias)</strong>：训练数据中存在的社会、文化、性别等偏见，会被模型学习并可能在生成的内容中放大。</li>
+                    <li><strong>安全性问题</strong>：可能被用于生成有害内容，如仇恨言论、虚假信息等。</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+            
+            // KaTeX rendering
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ]
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

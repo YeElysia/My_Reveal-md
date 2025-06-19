@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第六章: 数据的聚类与降维 (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html">Ch2-系统基础</a>
+        <a href="chapter_03.html">Ch3-开发基础</a>
+        <a href="chapter_04.html">Ch4-问题求解</a>
+        <a href="chapter_05.html">Ch5-回归与分类</a>
+        <a href="chapter_06.html" class="active">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html">Ch11-NLP</a>
+        <a href="chapter_12.html">Ch12-LLM</a>
+        <a href="chapter_13.html">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第六章: 数据的聚类与降维 (详细资料)</h1>
+
+            <div class="collapsible" id="kp-unsupervised-learning">
+                <h2>6.1 无监督学习概述</h2>
+            </div>
+            <div class="content">
+                <p>与监督学习不同，无监督学习处理的是<span class="key-term">没有标签</span>的数据。其目标不是预测一个已知的结果，而是从数据本身出发，探索并发现其中隐藏的、未知的结构、模式或关系。 </p>
+                <p>无监督学习的两大核心任务是：</p>
+                <ul>
+                    <li><strong>聚类 (Clustering)</strong>：将数据集中的样本划分为若干个不相交的子集，每个子集称为一个“簇”（Cluster）。其目标是使得同一个簇内的样本彼此相似，而不同簇的样本彼此不相似。这正是“物以类聚，人以群分”思想的体现。</li>
+                    <li><strong>数据降维 (Dimensionality Reduction)</strong>：在保留数据主要信息的前提下，将高维度的数据转换为低维度的数据。</li>
+                </ul>
+                <p>由于没有“正确答案”（标签）可供比对，无监督学习的效果评估通常比监督学习更具挑战性，常常需要依赖一些内部指标（如簇内距离）或后续任务的表现来间接评价。</p>
+            </div>
+
+            <div class="collapsible" id="kp-clustering">
+                <h2>6.2 聚类分析 (Clustering Analysis)</h2>
+            </div>
+            <div class="content">
+                <h3>K-means 聚类算法</h3>
+                <p>K-means是最著名和最常用的聚类算法之一。它的目标是将一个数据集划分为预先指定的 K 个簇。</p>
+                <h4>算法步骤</h4>
+                <p>K-means算法是一个迭代的过程，主要包含以下四个步骤： </p>
+                <ol>
+                    <li><strong>初始化 (Initialization)</strong>：从数据集中随机选择 K 个点作为初始的“聚类中心”（也称为质心，Centroid）。</li>
+                    <li><strong>分配 (Assignment)</strong>：对于数据集中的每一个点，计算它到所有 K 个聚类中心的距离（通常使用欧氏距离），然后将该点分配给距离最近的那个聚类中心所代表的簇。</li>
+                    <li><strong>更新 (Update)</strong>：对于每一个簇，重新计算其聚类中心。新的聚类中心是该簇内所有数据点的<span class="key-term">平均值</span>。</li>
+                    <li><strong>迭代 (Iteration)</strong>：重复执行步骤2（分配）和步骤3（更新），直到满足终止条件。终止条件通常是：聚类中心的位置不再发生变化，或者变化非常小；或者达到了预设的最大迭代次数。</li>
+                </ol>
+                <div class="img-placeholder">[此处应插入图片：K-means算法迭代过程的动态示意图，展示点如何被分配和质心如何移动，见课件第 265 页]</div>
+                
+                <h4>应用与局限性</h4>
+                <ul>
+                    <li><strong>应用</strong>：客户分群（用户画像）、图像分割（将颜色相近的像素聚为一类）、文本分类等。 </li>
+                    <li><strong>局限性</strong>：
+                        <ul>
+                            <li>需要预先指定簇的数量 K，而 K 值的选择往往很困难。</li>
+                            <li>对初始聚类中心的选择非常敏感，不同的初始值可能导致完全不同的聚类结果。</li>
+                            <li>对于非球形的簇、大小和密度差异很大的簇，K-means的效果不佳。 </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="collapsible" id="kp-dimensionality-reduction">
+                <h2>6.3 数据降维 (Dimensionality Reduction)</h2>
+            </div>
+            <div class="content">
+                <p>数据降维是指在尽可能多地保留原始数据信息的前提下，用更少的特征来表示数据的过程。 </p>
+                <h3>为什么需要降维？</h3>
+                <ul>
+                    <li><strong>数据可视化</strong>：人类无法直观理解超过三维的空间。将高维数据降至2D或3D，是实现数据可视化的前提。</li>
+                    <li><strong>去除噪声和冗余</strong>：原始数据中可能包含不相关或多余的特征，降维可以剔除这些信息，保留核心特征。</li>
+                    <li><strong>数据压缩</strong>：用更少的特征表示数据，可以显著减少存储空间和计算时间。</li>
+                    <li><strong>加速监督学习</strong>：更少的特征意味着模型训练更快。</li>
+                    <li><strong>克服“维度灾难”</strong>：在极高维度空间中，数据点之间的距离会变得非常大且相近，数据变得稀疏，这使得机器学习算法难以找到有效模式。降维有助于缓解此问题。</li>
+                </ul>
+                
+                <h3>主成分分析 (Principal Component Analysis, PCA)</h3>
+                <p>PCA是最常用的<span class="key-term">线性</span>降维方法之一。</p>
+                <ul>
+                    <li><strong>核心思想</strong>：通过一个线性的坐标变换，将数据投影到一个新的坐标系中。这个新坐标系的构建原则是：第一个坐标轴（称为第一主成分）必须是数据方差最大的方向；第二个坐标轴（第二主成分）与第一个正交，并且是剩余方差最大的方向，以此类推。</li>
+                    <li><strong>过程</strong>：PCA找到了能最大程度保留数据“信息”（即方差）的投影方向。通过只保留前几个最重要的主成分（方差最大的那几个轴），我们就可以用一个更低维的向量来表示原始数据点，从而实现降维。 </li>
+                </ul>
+                 <div class="img-placeholder">[此处应插入图片：PCA降维示意图，展示二维数据点如何投影到方差最大的第一主成分轴上，见课件第 271 页]</div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+            
+            // KaTeX rendering
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ]
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

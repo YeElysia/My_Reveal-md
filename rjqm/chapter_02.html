@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第二章: 人工智能的系统数据基础 (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--secondary-color);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html" class="active">Ch2-系统基础</a>
+        <a href="chapter_03.html">Ch3-开发基础</a>
+        <a href="chapter_04.html">Ch4-问题求解</a>
+        <a href="chapter_05.html">Ch5-回归与分类</a>
+        <a href="chapter_06.html">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html">Ch11-NLP</a>
+        <a href="chapter_12.html">Ch12-LLM</a>
+        <a href="chapter_13.html">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第二章: 人工智能的系统数据基础 (详细资料)</h1>
+
+            <div class="collapsible" id="kp-ai-system">
+                <h2>2.1 认识人工智能系统</h2>
+            </div>
+            <div class="content">
+                <h3>人工智能三要素</h3>
+                <p>现代人工智能，特别是深度学习的成功，离不开三个核心要素的共同发展。它们相辅相成，缺一不可。 </p>
+                <ul>
+                    <li><span class="key-term">数据 (Data)</span>：高质量、大规模的数据集是训练强大AI模型的基础和“燃料”。数据的数量和质量直接决定了模型性能的上限。</li>
+                    <li><span class="key-term">算法 (Algorithm)</span>：指机器学习或深度学习模型，如CNN、Transformer等，是实现学习的核心方法论。</li>
+                    <li><span class="key-term">算力 (Computing Power)</span>：指硬件计算能力，主要由CPU、GPU（图形处理器）、TPU（张量处理器）等提供，是实现复杂模型训练的物理保障。</li>
+                </ul>
+                <div class="img-placeholder">[此处应插入图片：人工智能三要素（数据集、算法、算力）的关系示意图，如课件第82页所示]</div>
+
+                <h3>人工智能系统技术架构</h3>
+                <p>一个完整的人工智能系统可以被看作一个多层次的架构。 </p>
+                <ul>
+                    <li><strong>硬件基础层</strong>：最底层，提供算力支持，包括CPU、GPU、TPU等处理器和存储器。 </li>
+                    <li><strong>操作系统层</strong>：管理硬件资源，为上层软件提供运行环境，如Linux、Windows。 </li>
+                    <li><strong>框架与工具层</strong>：提供了用于开发AI应用的开源框架（如TensorFlow, PyTorch）和工具包（如Scikit-learn, Pandas）。 </li>
+                    <li><strong>智能算法层</strong>：包含了具体的机器学习和深度学习算法。 </li>
+                    <li><strong>领域应用层</strong>：将AI技术应用于具体行业，解决实际问题，如医疗、金融、交通等。 </li>
+                </ul>
+            </div>
+            
+            <div class="collapsible" id="kp-computer-system">
+                <h2>2.2 人工智能系统基础</h2>
+            </div>
+            <div class="content">
+                <p>人工智能程序运行在计算机系统之上，理解计算机的基本工作原理至关重要。</p>
+                <h3>冯·诺依曼体系结构</h3>
+                <p>现代计算机大多基于<span class="key-term">冯·诺依曼体系结构</span>，其核心思想是“存储程序控制”，即程序和数据都以二进制形式存储在存储器中，计算机可以自动执行指令。 </p>
+                <p>该体系结构主要由五大部分组成：</p>
+                <ol>
+                    <li><strong>运算器</strong>：负责执行算术运算（加减乘除）和逻辑运算。</li>
+                    <li><strong>控制器</strong>：是计算机的指挥中心，负责从存储器中取出指令、分析指令并发出控制信号，协调各部件工作。</li>
+                    <li><strong>存储器</strong>：用于存放程序和数据。分为内存（RAM，速度快但断电丢失）和外存（硬盘、SSD，速度慢但可永久保存）。</li>
+                    <li><strong>输入设备</strong>：向计算机输入信息，如键盘、鼠标、麦克风。 </li>
+                    <li><strong>输出设备</strong>：将计算机处理结果展示给用户，如显示器、打印机。 </li>
+                </ol>
+                <p>其中，运算器和控制器通常被集成在一起，称为<span class="key-term">中央处理器 (CPU)</span>。 </p>
+                <div class="img-placeholder">[此处应插入图片：冯诺依曼体系结构图，展示CPU、存储器、输入输出设备和总线之间的关系，如课件第167页所示]</div>
+            </div>
+
+            <div class="collapsible" id="kp-data-rep">
+                <h2>2.3 人工智能数据基础</h2>
+            </div>
+            <div class="content">
+                <p>计算机内部通过<span class="key-term">二进制</span>来表示和处理所有信息。不同类型的数据有不同的编码和表示方法。</p>
+                <h3>数值与文本数据</h3>
+                <ul>
+                    <li><strong>数值数据</strong>：整数和浮点数直接转换为二进制进行存储和计算。</li>
+                    <li><strong>文本数据</strong>：通过字符编码标准将字符映射为数字，再转换为二进制。例如，<span class="key-term">ASCII码</span>用7位二进制数表示128个常用英文字符。 </li>
+                </ul>
+
+                <h3>图像数据</h3>
+                <p>图像在计算机中被表示为一个由像素组成的网格（矩阵）。</p>
+                <ul>
+                    <li><span class="key-term">像素 (Pixel)</span>：是构成图像的最小单位，每个像素都有一个或多个数值来表示其颜色和亮度。</li>
+                    <li><span class="key-term">分辨率 (Resolution)</span>：指图像在宽度和高度上的像素数量，例如 `1920x1080`。</li>
+                    <li><span class="key-term">颜色通道 (Color Channel)</span>：
+                        <ul>
+                            <li><strong>灰度图像</strong>：只有一个通道，每个像素用一个数值（通常0-255）表示灰度。</li>
+                            <li><strong>彩色图像 (RGB)</strong>：由红(Red)、绿(Green)、蓝(Blue)三个颜色通道叠加而成。每个像素在这三个通道上分别有一个取值（通常0-255）。因此，一个标准的8位彩色像素需要 $8 \text{ bits/channel} \times 3 \text{ channels} = 24 \text{ bits} = 3 \text{ bytes}$ 的存储空间。 </li>
+                        </ul>
+                    </li>
+                    <li><span class="key-term">数据归一化 (Normalization)</span>：在将图像数据送入神经网络前，通常会将其像素值范围从 `[0, 255]` 缩放到 `[0, 1]`。这是通过将每个像素值除以255.0实现的。
+                        <br><strong>目的</strong>：这个操作可以<span class="key-term">加快模型训练的收敛速度，并提高模型的稳定性</span>，防止因为输入数值过大而导致梯度计算出现问题。 
+                    </li>
+                </ul>
+
+                <h3>文本向量化表示</h3>
+                <p>为了让机器学习模型能处理文本，需要将词语转换为数值向量。</p>
+                <ul>
+                    <li><span class="key-term">独热编码 (One-Hot Encoding)</span>：为词汇表中的每个词创建一个非常长的向量，该词对应的索引位置为1，其余所有位置都为0。这是一种<span class="key-term">稀疏向量 (Sparse Vector)</span> 表示法。 
+                        <br><strong>缺点</strong>：向量维度等于词汇表大小，会造成维度灾难；且无法表达词与词之间的语义相似性（任意两个独热向量都是正交的）。</li>
+                    <li><span class="key-term">词向量/词嵌入 (Word Embedding)</span>：将词语映射到一个低维的、<span class="key-term">稠密 (Dense)</span> 的连续向量空间。
+                        <br><strong>优点</strong>：向量维度远小于词汇表大小，更重要的是，它能够捕捉词语之间的<span class="key-term">语义关系</span>。在向量空间中，意思相近的词语（如“国王”和“女王”）其向量也相互靠近。 </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

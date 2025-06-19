@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第十三章: 预训练微调和多模态模型 (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html">Ch2-系统基础</a>
+        <a href="chapter_03.html">Ch3-开发基础</a>
+        <a href="chapter_04.html">Ch4-问题求解</a>
+        <a href="chapter_05.html">Ch5-回归与分类</a>
+        <a href="chapter_06.html">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html">Ch11-NLP</a>
+        <a href="chapter_12.html">Ch12-LLM</a>
+        <a href="chapter_13.html" class="active">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第十三章: 预训练微调和多模态模型 (详细资料)</h1>
+
+            <div class="collapsible" id="kp-finetuning">
+                <h2>13.1 私人助手定制：微调的应用</h2>
+            </div>
+            <div class="content">
+                <p>“私人助手定制”是<span class="key-term">微调（Fine-tuning）</span>技术最典型的应用场景之一。它指的是将一个通用的、预训练好的大语言模型，通过在特定领域的小规模、高质量数据集上进行额外训练，使其转变为一个专业的、个性化的AI助手。</p>
+                <h3>实现路径</h3>
+                <ol>
+                    <li><strong>选择基础模型</strong>：选择一个性能优良的开源预训练大语言模型作为起点，例如Llama系列、ChatGLM、通义千问开源版、DeepSeek等。</li>
+                    <li><strong>准备专业数据集</strong>：这是最关键的一步。数据集的质量直接决定了微调后助手的专业水平。例如：
+                        <ul>
+                            <li><strong>医疗助手</strong>：使用高质量的医学教科书、临床指南、医学问答对数据。</li>
+                            <li><strong>法律助手</strong>：使用法律条文、判例、法律咨询问答数据。</li>
+                            <li><strong>个人知识库助手</strong>：使用自己的笔记、文档、邮件等个人数据。</li>
+                        </ul>
+                    </li>
+                    <li><strong>进行微调训练</strong>：在基础模型上，使用准备好的专业数据集进行训练。这个过程会调整模型的部分权重，使其“更懂”特定领域的知识和语言风格。</li>
+                    <li><strong>部署与应用</strong>：将微调后的模型部署到应用中。随着开源社区的发展和轻量化模型的出现，现在也可以使用Ollama等工具将一些微调模型<span class="key-term">本地部署</span>在个人电脑上，以保护数据隐私。</li>
+                </ol>
+            </div>
+
+            <div class="collapsible" id="kp-multimodal">
+                <h2>13.2 多模态大语言模型 (MLLM)</h2>
+            </div>
+            <div class="content">
+                <p>传统AI模型通常只能处理单一类型的数据（或称“模态”），例如只处理文本的LLM，或只处理图像的CNN。而<span class="key-term">多模态人工智能</span>指的是能够同时理解、处理和融合<span class="key-term">多种不同模态信息</span>的AI系统。</p>
+                <p>常见的模态包括：<span class="key-term">文本、图像、声音、视频</span>等。课程的多选题中甚至包括了“气味”这一未来可能融合的模态。多模态被认为是通往通用人工智能（AGI）的必由之路，因为它让人工智能更接近人类感知世界的方式。</p>
+                <h3>AI绘画与扩散模型</h3>
+                <p>AI绘画（Text-to-Image Generation）是多模态AI最成功的应用之一。当前最先进的AI绘画工具，如Midjourney、Stable Diffusion、DALL-E 2/3，其核心技术大多基于<span class="key-term">扩散模型（Diffusion Model）</span>。</p>
+                <h4>扩散模型原理</h4>
+                <p>扩散模型通过一个“先加噪再学着去噪”的巧妙过程来生成图像。</p>
+                <div class="img-placeholder">[此处应插入图片：扩散模型的前向加噪和反向去噪过程示意图]</div>
+                <ul>
+                    <li><strong>1. 前向过程（加噪）</strong>：这个过程是固定的、无需学习的。它从一张真实的、清晰的图像开始，分很多步（例如1000步）逐渐地、每次少量地向图像中添加高斯噪声，直到图像最终变成一片完全无意义的纯噪声。</li>
+                    <li><strong>2. 反向过程（去噪）</strong>：这是模型需要<span class="key-term">学习</span>的核心部分。训练一个强大的神经网络（通常是<span class="key-term">U-Net架构</span>），让它学会如何“撤销”前向过程的每一步。具体来说，模型的任务是输入一张带有噪声的图片，并预测出其中所包含的噪声，然后将原图减去预测的噪声，从而实现一步“去噪”。</li>
+                    <li><strong>生成新图像</strong>：当模型训练好后，要生成一张新图片时，我们从一幅完全随机的噪声图像开始，反复调用这个训练好的去噪网络，一步步地将噪声去除，最终“雕刻”出一张清晰、高质量、全新的图像。如果提供了文本提示（Prompt），模型（如Stable Diffusion）会利用CLIP等技术来引导去噪过程，使得最终生成的图像内容与文本描述相符。</li>
+                </ul>
+                <p><span class="key-term">注意</span>：考试中的一个易错点是混淆这两个过程。可学习的、带参数的U-Net模型是用于<span class="key-term">反向的去噪过程</span>，而不是前向的加噪过程。 </p>
+            </div>
+
+            <div class="collapsible" id="kp-mllm-frontier">
+                <h2>13.3 多模态研究前沿</h2>
+            </div>
+            <div class="content">
+                <p>多模态技术正在飞速发展，不断涌现出新的模型和应用，进一步模糊虚拟与现实的边界。</p>
+                <h3>文生视频 (Text-to-Video)</h3>
+                <p>继文生图之后，文生视频成为新的研究热点。代表模型如OpenAI的<span class="key-term">Sora</span>，能够根据详细的文本描述生成长达一分钟的高清、连贯、且符合物理规律的视频。这不仅是简单的图像序列生成，更体现了模型对现实世界动态规律的深刻理解，被看作是“世界模拟器”的雏形。</p>
+                <h3>多模态大语言模型 (MLLM)</h3>
+                <p>未来的大语言模型将不再局限于文本。像GPT-4V这样的模型已经可以“看懂”图片并进行问答。未来的MLLM将能够无缝地接收和处理文本、图像、音频、视频等混合输入，并生成相应模态的输出，实现更自然、更强大的人机交互。</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+            
+            // KaTeX rendering
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ]
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智能基础A - 冲刺资料</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --code-bg: #2d2d2d;
+            --accent-color: #d9534f;
+            --exercise-bg: #343a40;
+            --exercise-color: #f8f9fa;
+            --exercise-border: #495057;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--header-bg);
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        h1 {
+            text-align: center;
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .topic-group {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background-color: #fff;
+        }
+        .topic-group > h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            position: relative;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 15px 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .collapsible:hover {
+            background-color: #eef;
+        }
+        /* Dark theme for exercise container */
+        .exercise-container {
+            background-color: var(--exercise-bg);
+            color: var(--exercise-color);
+            border-color: var(--exercise-border);
+        }
+        .exercise-container:hover {
+            background-color: #495057;
+        }
+        .exercise-container .content {
+             background-color: #f7f9fa; /* Light background for content inside dark collapsible */
+             color: var(--font-color);
+             border-color: var(--border-color);
+        }
+        .detail-links {
+            text-align: right;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .detail-links a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        .exercise {
+            border: 1px solid #c9ae83;
+            border-left: 5px solid #f0ad4e;
+            padding: 15px;
+            margin: 15px 0;
+            background: #fffdf9;
+            border-radius: 4px;
+        }
+        .exercise p:first-child {
+            margin-top: 0;
+        }
+        .exercise .solution {
+            border-top: 1px dashed #c9ae83;
+            padding-top: 10px;
+            margin-top: 10px;
+            color: #555;
+        }
+        .solution strong, .exercise .key-term {
+            color: #c0392b;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: #e9ecef;
+            padding: .2em .4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: var(--code-bg);
+            border-radius: 5px;
+            padding: 1em;
+            overflow-x: auto;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #f8f8f2;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .gemini-q {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            margin: 15px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>人工智能基础A - 冲刺资料</h1>
+
+        <div class="topic-group">
+            <h2>第一章: 初始人工智能</h2>
+            <div class="collapsible">三大主流学派</div>
+            <div class="content">
+                <p>这是AI领域的哲学基础，高频考点。核心是区分三者的思想和代表技术。</p>
+                <ul>
+                    <li><span class="key-term">符号主义 (Symbolism)</span>：认为智能的核心是<span class="key-term">知识和推理</span>。它试图用逻辑符号来表示知识，并通过精确的规则进行推理。代表技术是专家系统、知识图谱。优点是<span class="key-term">可解释性强</span>，缺点是知识获取难，不灵活。</li>
+                    <li><span class="key-term">联结主义 (Connectionism)</span>：认为智能源于大量简单神经元间的相互连接。它模仿大脑结构，是当前深度学习的基础。代表技术是<span class="key-term">人工神经网络(CNN, RNN等)</span>。优点是<span class="key-term">学习能力强</span>，缺点是“黑箱”模型，<span class="key-term">可解释性差</span>。</li>
+                    <li><span class="key-term">行为主义 (Behaviorism)</span>：认为智能体通过与环境的交互（感知-行动-奖励/惩罚）来学习。代表技术是<span class="key-term">强化学习</span>。优点是<span class="key-term">适应性强</span>，能学习最优策略，缺点是<span class="key-term">试错成本高</span>。</li>
+                </ul>
+                <div class="detail-links"><a href="chapter_01.html#kp-ai-schools" target="_blank">[点击跳转——第一章：初始人工智能]</a></div>
+            </div>
+            
+            <div class="collapsible">AI伦理与局限性</div>
+            <div class="content">
+                <ul>
+                    <li><span class="key-term">幸存者偏差</span>：一种逻辑谬误，指分析时过度关注“幸存”的样本，而忽略了被淘汰的样本，导致结论偏差。这是AI模型产生偏见的重要原因之一，因为模型只能从提供的数据中学习。</li>
+                    <li><span class="key-term">没有免费午餐定理</span>：核心思想是“没有在所有问题上都表现最佳的单一算法”。因此，说“Transformer是最好的NLP模型”或“ReLU是最好的激活函数”在逻辑上是错误的。</li>
+                    <li><span class="key-term">AI幻觉 (Hallucination)</span>：指生成式AI模型（GAI）生成看似合理但实际上是虚假的、与事实不符的内容。因此“GAI不会造假”的说法是错误的。</li>
+                </ul>
+                <div class="detail-links"><a href="chapter_01.html#kp-ethics" target="_blank">[点击跳转——第一章：初始人工智能]</a></div>
+            </div>
+
+            <div class="collapsible exercise-container">相关考题 (第一章)</div>
+            <div class="content">
+                 <div class="exercise">
+                    <p><strong>(判断题 - 模拟卷)</strong> 1. 图灵测试是由艾伦·图灵在1950年提出的衡量机器智能的标准。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：该描述准确无误。</div>
+                </div>
+                 <div class="exercise">
+                    <p><strong>(判断题 - 历年卷)</strong> 13. 当一种系统在复杂性增加到某一临界点时，会出现其子系统或较小规模版本中未曾存在的行为或特性，这种能力叫“涌现”。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：这是“涌现”能力的准确定义，在大语言模型中表现得尤为明显。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 历年卷)</strong> 12. GAI是通过人类已经产生的语料进行训练的人工智能模型，因此不会造假。</p>
+                    <div class="solution"><strong>答案：× (错误)</strong>。 <strong>解析</strong>：GAI存在“AI幻觉”问题，会生成虚假信息，因此会造假。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 模拟卷)</strong> 6. 幸存者偏差现象是人工智能的主要优势之一。</p>
+                    <div class="solution"><strong>答案：× (错误)</strong>。 <strong>解析</strong>：幸存者偏差是人工智能的<span class="key-term">局限性</span>和挑战，它会导致模型偏见，而不是优势。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 模拟卷)</strong> 12. 没有免费午餐定理指出所有算法在所有问题上性能相同。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：该定理的核心是，在所有可能问题的集合上，没有一个算法能优于另一个。任何算法的平均性能都是相同的。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(单选题 - 模拟卷)</strong> 1. 深度学习属于人工智能的哪个分支?</p>
+                    <p>A. 符号主义 B. 行为主义 C. 联结主义 D. 统计主义</p>
+                    <div class="solution"><strong>答案：C</strong>。 <strong>解析</strong>：深度学习基于人工神经网络，模仿大脑神经元连接，是典型的联结主义思想。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(单选题 - 模拟卷)</strong> 10. 1956年达特茅斯会议的主要贡献是:</p>
+                    <p>A. 发明第一台计算机 B. 首次提出”人工智能”术语 C. 提出图灵测试 D. 发明神经网络</p>
+                    <div class="solution"><strong>答案：B</strong>。 <strong>解析</strong>：达特茅斯会议被认为是AI的诞生日，会上正式确立了“人工智能”这一术语。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(单选题 - 模拟卷)</strong> 20. 中文屋思想实验主要质疑:</p>
+                    <p>A. 图灵测试的有效性 B. 机器翻译的准确性 C. 计算机是否真正理解 D. 神经网络的学习能力</p>
+                    <div class="solution"><strong>答案：C</strong>。 <strong>解析</strong>：中文屋实验的核心论点是，即使一个系统能通过行为测试（如图灵测试），也并不意味着它真正具有理解能力（心智）。所以最核心的质疑是“计算机是否真正理解”。选项A也是正确的，但C更为根本。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-group">
+            <h2>第二章: 人工智能的系统数据基础</h2>
+            <div class="collapsible">数据表示</div>
+            <div class="content">
+                <ul>
+                    <li><span class="key-term">图像数字化表示</span>：
+                        <ul>
+                            <li><strong>彩色图像(RGB)</strong>：每个像素由红(R)、绿(G)、蓝(B)三个通道组成。每个通道的颜色深度通常为8位(bit)，即1个字节(byte)。因此一个彩色像素需要 <span class="key-term">3个字节</span> (3 Bytes) 的内存。</li>
+                            <li><span class="key-term">数据归一化</span>：将图像像素值从[0, 255]范围通过除以255.0，缩放到[0, 1]范围。此操作能<span class="key-term">加快模型训练收敛速度，提高模型稳定性</span>。</li>
+                        </ul>
+                    </li>
+                    <li><span class="key-term">文本向量化表示</span>：
+                        <ul>
+                            <li><span class="key-term">独热编码(One-Hot)</span>：一种<span class="key-term">稀疏向量</span>表示法，向量维度等于词汇表大小，只有一个位置是1，其余都是0。无法表达词间关系。</li>
+                            <li><span class="key-term">词向量(Word Embedding)</span>：一种<span class="key-term">稠密向量</span>表示法，将词映射到低维连续空间，维度远小于词汇表大小，且能表达语义相似性。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="detail-links"><a href="chapter_02.html#kp-data-rep" target="_blank">[点击跳转——第二章：系统数据基础]</a></div>
+            </div>
+            <div class="collapsible exercise-container">相关考题 (第二章)</div>
+            <div class="content">
+                <div class="exercise">
+                    <p><strong>(单选题 - 历年卷)</strong> 4. 目前一副彩色图像的每个像素是用多大的内存保存的？</p>
+                    <p>A.1个bit B.1个byte C.3个bit D.3个byte</p>
+                    <div class="solution"><strong>答案：D</strong>。 <strong>解析</strong>：标准彩色图像的每个像素由RGB（红、绿、蓝）三个颜色通道组成，每个通道的颜色深度通常为8位（bit），即1个字节（byte）。因此，一个像素需要3个字节来存储。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 模拟卷)</strong> 8. 词向量的维度通常远小于词汇表大小。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：词向量是稠密表示，其维度（如50, 100, 300）远小于词汇表的大小（可能数万或数十万）。而独热编码的维度等于词汇表大小。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 模拟卷)</strong> 16. 独热编码是一种稠密向量表示方法。</p>
+                    <div class="solution"><strong>答案：× (错误)</strong>。 <strong>解析</strong>：独热编码是典型的<span class="key-term">稀疏向量</span>表示法，因为向量中绝大多数元素都是0。</div>
+                </div>
+                 <div class="exercise">
+                    <p><strong>(问答题 - 历年卷解析)</strong> 在处理像 MNIST 这样的图像数据时，通常会有一行代码 `X = mtData.data / 255.0`。请问这行代码操作的名称是什么？其主要目的是什么？</p>
+                    <div class="solution"><strong>答案</strong>：<br>
+                    这个操作的名称是<span class="key-term">数据归一化 (Normalization)</span>或数据缩放 (Scaling)。<br>
+                    其主要目的是将像素值从原来的 [0, 255] 范围缩放到 [0, 1] 范围。这样做可以加快模型训练的收敛速度，并提高模型的稳定性。</div>
+                </div>
+                 <div class="exercise">
+                    <p><strong>(多选题 - 模拟卷)</strong> 14. 图像数字化的要素包括:(多选)</p>
+                    <p>A. RGB通道 B. 分辨率 C. 像素值 D. 卷积核大小</p>
+                    <div class="solution"><strong>答案：A, B, C</strong>。 <strong>解析</strong>：图像数字化的基本要素包括像素值（每个点的亮度/颜色），分辨率（像素矩阵的大小），以及颜色通道（如灰度图的1个通道或彩色图的RGB三个通道）。卷积核是用于处理数字化后图像的算法组件，不属于数字化本身的要素。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-group">
+            <h2>第四/七章: 机器学习与深度网络基础</h2>
+            <div class="collapsible">机器学习核心概念</div>
+            <div class="content">
+                <ul>
+                    <li><span class="key-term">监督学习</span>：使用<span class="key-term">有标签</span>的数据进行训练，分为<strong>回归</strong>（预测连续值）和<strong>分类</strong>（预测离散类别）。</li>
+                    <li><span class="key-term">无监督学习</span>：使用<span class="key-term">无标签</span>的数据，任务主要是<strong>聚类</strong>（如K-means）和<strong>降维</strong>（如PCA）。</li>
+                    <li><span class="key-term">过拟合</span>：模型在<span class="key-term">训练集上表现很好，但在测试集上表现很差</span>。解决方法包括：<span class="key-term">Dropout</span>、正则化、增加数据量、交叉验证。</li>
+                    <li><span class="key-term">误差反向传播 (BP) 算法</span>：训练神经网络的核心，通过<span class="key-term">链式法则</span>从后向前计算梯度，并根据误差自动调整网络权重。</li>
+                </ul>
+                <div class="detail-links"><a href="chapter_04.html" target="_blank">[点击跳转——第四章：从问题求解到机器学习]</a></div>
+            </div>
+            <div class="collapsible">深度网络基础组件</div>
+            <div class="content">
+                 <ul>
+                    <li><span class="key-term">激活函数</span>：为神经网络引入<span class="key-term">非线性</span>能力。
+                        <ul>
+                            <li><strong>Sigmoid</strong>：输出在(0, 1)之间，常用于二分类输出层。其S型曲线是重要特征。</li>
+                            <li><span class="key-term">ReLU</span>：$f(x) = \max(0, x)$。是目前<span class="key-term">隐藏层最常用</span>的激活函数，计算高效。</li>
+                            <li><span class="key-term">Softmax</span>：将输出向量转换为概率分布，所有输出项之和为1，常用于<span class="key-term">多分类任务的输出层</span>。</li>
+                        </ul>
+                    </li>
+                    <li><span class="key-term">损失函数</span>：衡量预测值与真实值差距。
+                        <ul>
+                            <li><strong>均方误差 (MSE)</strong>：用于回归任务。</li>
+                            <li><strong>交叉熵 (Cross-Entropy)</strong>：用于分类任务。二分类用<span class="key-term">二元交叉熵</span>，多分类用<span class="key-term">多分类/类别交叉熵</span>。</li>
+                        </ul>
+                    </li>
+                    <li><span class="key-term">优化器</span>：根据梯度更新网络权重。
+                        <ul>
+                            <li><span class="key-term">梯度下降法</span>：沿<span class="key-term">负梯度</span>方向更新参数以最小化损失函数。</li>
+                            <li><span class="key-term">Adam</span>：结合了动量和自适应学习率，是当前最常用的优化器之一。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="detail-links"><a href="chapter_07.html#kp-components" target="_blank">[点击跳转——第七章：深度网络基础组件]</a></div>
+            </div>
+            <div class="collapsible exercise-container">相关考题 (第四/七章)</div>
+            <div class="content">
+                 <div class="exercise">
+                    <p><strong>(判断题 - 历年卷)</strong> 3. 为了使神经网络具备非线性处理能力，激活函数就必须是一种非线性函数。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：如果激活函数是线性的，多层线性函数的叠加结果仍然是线性的，整个网络将退化为单层线性模型，无法学习复杂的非线性关系。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 模拟卷)</strong> 9. ReLU激活函数是目前隐含层中最常用的激活函数。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：因其计算简单、收敛快、能缓解梯度消失等优点，ReLU已成为深度学习模型隐藏层的首选激活函数。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 历年卷)</strong> 5. 在误差反向传播算法里，网络的权重是根据实际值和网络计算值之间的误差自动进行网络权重的调整。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：这正是BP算法的核心思想：计算输出误差，并将误差反向传播，用于指导网络权重的调整。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 模拟卷)</strong> 5. 反向传播算法采用链式法则计算梯度。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：链式法则是微积分中的一个规则，是BP算法能够逐层计算梯度的数学基础。</div>
+                </div>
+                 <div class="exercise">
+                    <p><strong>(单选题 - 模拟卷)</strong> 2. 以下哪个激活函数最常见于神经网络隐藏层?</p>
+                    <p>A. Sigmoid B. Tanh C. ReLU D. Softmax</p>
+                    <div class="solution"><strong>答案：C</strong>。 <strong>解析</strong>：ReLU因其多重优点，是目前隐藏层的标准配置。Softmax主要用于输出层。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(单选题 - 历年卷)</strong> 12. 在多分类任务中，输出层的激活函数常采用Softmax，原因是（）</p>
+                    <p>A. 防止过拟合 B. 获取全局最优点 C. 加快训练速度 D. 输出结果可以代表分类概率</p>
+                    <div class="solution"><strong>答案：D</strong>。 <strong>解析</strong>：Softmax函数能将一组任意实数转换成一个概率分布，所有输出值都在(0,1)之间且总和为1，这与多分类任务的输出需求（即每个类别的概率）完美契合。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(多选题 - 历年卷)</strong> 4. 在实际应用中，对数据进行哪种处理可以使其落入0到1区间？</p>
+                    <p>A.ReLU B.Softmax C.Sigmoid D.添加高斯噪声</p>
+                    <div class="solution"><strong>答案：B, C</strong>。 <strong>解析</strong>：A.ReLU的输出是[0, +∞)。B.Softmax的每个输出元素都在(0,1)之间。C.Sigmoid的输出在(0,1)之间。D.添加高斯噪声是增加随机扰动，与区间无关。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(多选题 - 历年卷)</strong> 5. BP算法具有如下的局限性（）</p>
+                    <p>A. 易陷入局部最小值 B. 学习新样本时可能遗忘旧样本 C. 缺乏严谨的推导过程 D. 隐节点选取缺乏理论指导</p>
+                    <div class="solution"><strong>答案：A, B, D</strong>。 <strong>解析</strong>：C是错误的，BP算法基于严谨的链式法则推导。A、B（灾难性遗忘）、D都是BP算法公认的局限性。</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-group">
+            <h2>第五/六/八/九/十一/十三: 经典模型与应用</h2>
+            <div class="collapsible">CNN核心</div>
+             <div class="content">
+                <p>CNN特别适合处理图像等网格数据，核心操作是<span class="key-term">卷积</span>和<span class="key-term">池化</span>。</p>
+                <ul>
+                    <li><span class="key-term">卷积(Convolution)</span>：通过卷积核（滤波器）在图像上滑动，提取特征（如边缘、纹理）。卷积核的<span class="key-term">数量</span>决定了能提取多少种特征，而不是形状。</li>
+                    <li><span class="key-term">池化(Pooling)</span>：对特征图进行下采样，<span class="key-term">减小特征图尺寸</span>，减少计算量，并提供一定的平移不变性。</li>
+                    <li><strong>输出尺寸计算公式</strong>：对于输入尺寸W，卷积核F，步长S，填充P，输出尺寸为：$W_{out} = \lfloor \frac{W - F + 2P}{S} \rfloor + 1$。</li>
+                </ul>
+                <div class="detail-links"><a href="chapter_08.html#kp-cnn-arch" target="_blank">[点击跳转——第八章：卷积神经网络]</a></div>
+             </div>
+             <div class="collapsible">RNN & LSTM核心</div>
+             <div class="content">
+                <p>RNN专为处理<span class="key-term">序列数据</span>设计，其<span class="key-term">循环结构</span>使其具有记忆能力。但标准RNN难以学习长期依赖关系，易出现<span class="key-term">梯度消失/爆炸</span>问题。 <span class="key-term">LSTM</span>是RNN的改进，通过<span class="key-term">门控机制</span>（遗忘门、输入门、输出门）有效解决了梯度消失问题，能捕捉长期依赖。 </p>
+                <div class="detail-links"><a href="chapter_09.html#kp-rnn-arch" target="_blank">[点击跳转——第九章：循环神经网络]</a></div>
+             </div>
+              <div class="collapsible">NLP & Transformer核心</div>
+             <div class="content">
+                 <p>Word2Vec是代表性的词嵌入算法，包含CBOW（上下文预测中心词） 和Skip-gram（中心词预测上下文）两种模型。</p>
+                <p><span class="key-term">Transformer</span>是目前NLP领域的主流架构，它完全基于<span class="key-term">自注意力机制</span>，摒弃了RNN的循环结构，可以并行计算，且更擅长捕捉长距离依赖。其结构可包含编码器和解码器，但也可以只使用其中之一。</p>
+                 <p><span class="key-term">预训练-微调 (Pre-training & Fine-tuning)</span>是LLM应用的核心范式。先用海量通用数据进行预训练，再用特定领域的小规模数据进行<span class="key-term">微调</span>，以适应专业任务。</p>
+                 <p><span class="key-term">扩散模型 (Diffusion Model)</span> 的<span class="key-term">反向过程</span>（去噪过程）是通过带参数的U-Net模型一步步去除噪声，最终从纯噪声生成图像。 </p>
+                <div class="detail-links"><a href="chapter_11.html#kp-transformer" target="_blank">[点击跳转——第十一章：自然语言处理]</a><a href="chapter_13.html#kp-finetune" target="_blank">[点击跳转——第十三章：预训练微调]</a></div>
+             </div>
+            <div class="collapsible exercise-container">相关考题 (经典模型与应用)</div>
+            <div class="content">
+                <div class="exercise">
+                    <p><strong>(判断题 - 历年卷)</strong> 6. 在CNN模型设计时，为了获取更多的图像特征数量，可以通过增大卷积核形状来实现。</p>
+                    <div class="solution"><strong>答案：× (错误)</strong>。 <strong>解析</strong>：应该增加<span class="key-term">卷积核数量</span>来获取更多种类的特征。增大卷积核形状是增大感受野范围。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(判断题 - 历年卷)</strong> 8. 在CBOW模型中，是通过周边词来计算中心词的词向量值。</p>
+                    <div class="solution"><strong>答案：√ (正确)</strong>。 <strong>解析</strong>：这是CBOW (Continuous Bag-of-Words) 模型的准确定义。</div>
+                </div>
+                 <div class="exercise">
+                    <p><strong>(判断题 - 历年卷)</strong> 16. 在扩散模型的前向过程中，通过带参数的模型U-Net一步步加入噪声，经过N步，最终生成一副不再扩散的稳定图像。</p>
+                    <div class="solution"><strong>答案：× (错误)</strong>。 <strong>解析</strong>：该描述混淆了前向和反向过程。前向过程是简单的、无参数的加噪过程。带参数的U-Net模型用于<span class="key-term">反向过程</span>，即去噪生成图像的过程。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(单选题 - 历年卷)</strong> 5. 已知输入X为12×12的矩阵，卷积核大小为5×5，步长为2，边缘填充为1个像素则经过卷积运算后的矩阵形状是：（）</p>
+                    <div class="solution"><strong>答案：C (5x5)</strong>。 <strong>解析</strong>：应用公式 $W_{out} = \lfloor \frac{W - F + 2P}{S} \rfloor + 1$。其中 W=12, F=5, P=1, S=2。$W_{out} = \lfloor \frac{12 - 5 + 2 \times 1}{2} \rfloor + 1 = \lfloor \frac{9}{2} \rfloor + 1 = 4 + 1 = 5$。所以输出尺寸为5x5。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(单选题 - 历年卷)</strong> 11. 对一个6×6的特征矩阵，进行平均池化计算，池化窗口为2×2，步长=2，则池化后的特征矩阵形状是：（）</p>
+                    <div class="solution"><strong>答案：C (3x3)</strong>。 <strong>解析</strong>：池化通常无填充（P=0）。应用公式，W=6, F=2, P=0, S=2。$W_{out} = \lfloor \frac{6 - 2 + 0}{2} \rfloor + 1 = \lfloor \frac{4}{2} \rfloor + 1 = 2 + 1 = 3$。</div>
+                </div>
+                <div class="exercise">
+                    <p><strong>(单选题 - 历年卷)</strong> 14. 开源的大语言模型Llama3具有了非常好的语义理解和输出能力，为了使其快速的应用到专业的领域，可以对该模型采用什么样的技术手段？</p>
+                    <p>A. 用专业领域的数据进行微调训练 B. 无需进行任何修改，可以直接部署应用 C. 用专业领域的数据重新进行训练 D. 不管采取何种技术手段，都无法用到专业领域</p>
+                    <div class="solution"><strong>答案：A</strong>。 <strong>解析</strong>：微调（Fine-tuning）是利用预训练模型已经学到的通用知识，在特定任务的小数据集上进行调整，使其适配专业领域，这是最高效、最常用的方法。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-group">
+            <h2>附录: 常用代码速查</h2>
+            <div class="collapsible">环境与包管理 (pip)</div>
+            <div class="content">
+                <pre><code class="language-bash">
+# 安装一个包 (以numpy为例)
+pip install numpy
+
+# 使用国内镜像源加速安装 (清华源)
+pip install pandas -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 安装指定版本的包
+pip install tensorflow==2.10.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 查看已安装的所有包
+pip list
+
+# 卸载一个包
+pip uninstall numpy
+                </code></pre>
+            </div>
+            <div class="collapsible">数据处理 (NumPy & Pandas)</div>
+            <div class="content">
+                <pre><code class="language-python">
+import numpy as np
+import pandas as pd
+
+# NumPy: 创建数组和基本操作
+a = np.array([1, 2, 3])
+b = np.array([[1, 2], [3, 4]])
+print(b.shape) # 查看形状 -> (2, 2)
+c = np.zeros((2,3)) # 创建一个2x3的全0数组
+dot_product = np.dot(a, a) # 计算点积
+
+# Pandas: 读取CSV文件和基本操作
+# 假设有一个名为 data.csv 的文件
+df = pd.read_csv('data.csv')
+print(df.head()) # 查看前5行
+print(df.describe()) # 查看数据统计摘要
+col_a = df['column_name'] # 选择一列
+                </code></pre>
+            </div>
+             <div class="collapsible">数据可视化 (Matplotlib)</div>
+            <div class="content">
+                 <pre><code class="language-python">
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4, 5]
+y = [2, 3, 5, 7, 11]
+
+plt.plot(x, y, marker='o') # 绘制折线图，带圆点标记
+plt.title("Simple Plot") # 添加标题
+plt.xlabel("X-axis") # 添加X轴标签
+plt.ylabel("Y-axis") # 添加Y轴标签
+plt.grid(True) # 显示网格
+plt.show() # 显示图像
+                 </code></pre>
+            </div>
+            <div class="collapsible">模型训练 (Scikit-learn)</div>
+            <div class="content">
+                 <pre><code class="language-python">
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# X: 特征, y: 标签
+# 划分训练集和测试集，test_size=0.2表示80%训练，20%测试
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 初始化模型
+model = LogisticRegression()
+
+# 训练模型
+model.fit(X_train, y_train)
+
+# 预测
+predictions = model.predict(X_test)
+
+# 评估
+print(f"Accuracy: {accuracy_score(y_test, predictions)}")
+                 </code></pre>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Collapsible sections
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+
+            // KaTeX rendering
+            // Check if KaTeX is loaded
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ]
+                });
+            }
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

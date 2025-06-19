@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三章: 人工智能的应用开发基础 (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 5px;
+            padding: 1em;
+            overflow-x: auto;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html">Ch2-系统基础</a>
+        <a href="chapter_03.html" class="active">Ch3-开发基础</a>
+        <a href="chapter_04.html">Ch4-问题求解</a>
+        <a href="chapter_05.html">Ch5-回归与分类</a>
+        <a href="chapter_06.html">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html">Ch11-NLP</a>
+        <a href="chapter_12.html">Ch12-LLM</a>
+        <a href="chapter_13.html">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第三章: 人工智能的应用开发基础 (详细资料)</h1>
+
+            <div class="collapsible" id="kp-python">
+                <h2>3.1 Python 基础入门</h2>
+            </div>
+            <div class="content">
+                <p>Python是目前人工智能领域最主流的编程语言，因其语法简洁、社区生态丰富而备受青睐。掌握其基础是进行AI开发的前提。</p>
+                <div class="img-placeholder">[此处应插入图片：Python数据类型与变量思维导图，见课件第 179 页]</div>
+                <h4>核心数据类型</h4>
+                <ul>
+                    <li><strong>数字 (Number)</strong>：包括整数(int)、浮点数(float)、复数(complex)。</li>
+                    <li><strong>布尔型 (Boolean)</strong>：只有两个值，`True` 和 `False`。</li>
+                    <li><strong>字符串 (String)</strong>：用单引号或双引号括起来的文本序列。</li>
+                    <li><strong>列表 (List)</strong>：用方括号 `[]` 表示，是有序、<span class="key-term">可变</span>的集合。可以包含不同类型的元素。</li>
+                    <li><strong>元组 (Tuple)</strong>：用圆括号 `()` 表示，是有序、<span class="key-term">不可变</span>的集合。一旦创建就不能修改。</li>
+                    <li><strong>集合 (Set)</strong>：用花括号 `{}` 表示，是无序、不重复的元素集合。主要用于去重和成员测试。</li>
+                    <li><strong>字典 (Dictionary)</strong>：用花括号 `{}` 表示的键值对（key-value）集合。键必须是唯一的。</li>
+                </ul>
+                <h4>程序控制结构</h4>
+                <ul>
+                    <li><strong>顺序结构</strong>：代码从上到下依次执行。</li>
+                    <li><strong>选择结构</strong>：使用 `if`, `elif`, `else` 语句根据条件判断执行不同的代码块。</li>
+                    <li><strong>循环结构</strong>：
+                        <ul>
+                            <li>`for` 循环：用于遍历一个序列（如列表、字符串）或其他可迭代对象。</li>
+                            <li>`while` 循环：当给定条件为真时，重复执行代码块。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapsible" id="kp-dev-env">
+                <h2>3.2 AI开发环境与工具包</h2>
+            </div>
+            <div class="content">
+                <p>一个稳定、配置良好的开发环境是高效进行AI项目开发的基础。</p>
+                <h3>集成开发环境 (IDE)</h3>
+                <ul>
+                    <li><span class="key-term">Anaconda</span>：一个开源的Python发行版本，集成了大量科学计算、数据分析的包。其优点是<span class="key-term">集成度高，可视化好</span>，方便管理包和环境。但平台内许多高级工具可能需要额外收费。</li>
+                    <li><span class="key-term">PyCharm</span>：一款功能强大的Python IDE。社区版免费，专业版收费。其优点是可以直接将项目文件夹映射为虚拟环境，并支持远程开发，功能强大。</li>
+                    <li><span class="key-term">Jupyter Notebook/Lab</span>：一种基于Web的交互式计算环境，允许创建和共享包含代码、公式、可视化和叙述性文本的文档。非常适合数据探索和教学演示。</li>
+                </ul>
+                <h3>虚拟环境</h3>
+                <p><strong>作用</strong>：解决不同项目间Python版本或第三方库版本的<span class="key-term">兼容性问题</span>和冲突。为每个项目创建一个独立的、干净的虚拟开发环境，是AI开发的最佳实践。</p>
+                <h3>包管理工具：pip</h3>
+                <p>`pip` 是Python的包安装程序，用于安装和管理第三方库。</p>
+                <pre><code># 使用国内镜像源（如清华源）加速安装
+pip install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple</code></pre>
+
+                <h3>核心AI算法库</h3>
+                <ul>
+                    <li><span class="key-term">NumPy</span>：Python科学计算的基础包，提供了强大的N维数组对象和相关运算功能。</li>
+                    <li><span class="key-term">Pandas</span>：提供了高性能、易于使用的数据结构（如DataFrame）和数据分析工具。</li>
+                    <li><span class="key-term">Matplotlib</span>：一个强大的2D绘图库，用于数据可视化。</li>
+                    <li><span class="key-term">Scikit-learn</span>：一个功能丰富的机器学习库，包含了大量的分类、回归、聚类和降维算法，以及模型选择和评估工具。</li>
+                </ul>
+            </div>
+
+            <div class="collapsible" id="kp-dl-frameworks">
+                <h2>3.3 深度学习框架</h2>
+            </div>
+            <div class="content">
+                <p>深度学习框架提供了一套高级的API和工具，极大地简化了构建、训练和部署复杂神经网络的过程。</p>
+                <ul>
+                    <li>
+                        <span class="key-term">TensorFlow</span>：由Google开发。特点是生态系统完善，支持工业级部署（通过TensorFlow Serving），并且拥有强大的可视化工具TensorBoard。其高级API `Keras` 以用户友好和快速原型设计而闻名。
+                    </li>
+                    <li>
+                        <span class="key-term">PyTorch</span>：由Facebook（Meta）开发。特点是其<span class="key-term">动态计算图</span>机制，使得模型构建和调试更加灵活直观，深受学术界和研究人员的喜爱。语法风格与原生Python更接近。
+                    </li>
+                    <li>
+                        <strong>国产框架</strong>：如百度的飞桨(PaddlePaddle)、华为的MindSpore等也在迅速发展，构成了自主可控的AI生态。
+                    </li>
+                </ul>
+                 <div class="img-placeholder">[此处应插入图片：TensorFlow和PyTorch的Logo对比，见课件第177页]</div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

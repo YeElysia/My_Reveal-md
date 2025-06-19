@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第四章: 从问题求解到机器学习 (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html">Ch2-系统基础</a>
+        <a href="chapter_03.html">Ch3-开发基础</a>
+        <a href="chapter_04.html" class="active">Ch4-问题求解</a>
+        <a href="chapter_05.html">Ch5-回归与分类</a>
+        <a href="chapter_06.html">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html">Ch11-NLP</a>
+        <a href="chapter_12.html">Ch12-LLM</a>
+        <a href="chapter_13.html">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第四章: 从问题求解到机器学习 (详细资料)</h1>
+
+            <div class="collapsible" id="kp-problem-solving">
+                <h2>4.1 问题求解理论基础</h2>
+            </div>
+            <div class="content">
+                <p>在人工智能领域，一个“问题”被形式化地定义为：<span class="key-term">当前状态</span>与智能主体所期望的<span class="key-term">目标状态</span>之间的差距 。问题求解就是寻找一系列操作，使得系统能够从当前状态转换到目标状态。</p>
+                <h3>状态空间表示法</h3>
+                <p>这是传统AI（符号主义）中描述问题的标准方法，它将问题表示为一个三元组：<strong>(S, O, G)</strong></p>
+                <ul>
+                    <li><strong>S (States)</strong>：问题所有可能状态的集合。其中包含一个初始状态 $S_0$。</li>
+                    <li><strong>O (Operators)</strong>：操作算子的集合，即可以施加于状态上，使其发生改变的动作。</li>
+                    <li><strong>G (Goals)</strong>：一个或多个目标状态的集合。</li>
+                </ul>
+                <p><strong>求解过程</strong>：在状态空间中，寻找一条从初始状态 $S_0$ 到任一目标状态 $G_i$ 的路径。这条路径就是问题的解。</p>
+                <p>例如，在“倒水问题”中，状态就是两个水桶中分别有多少水（如(0,0), (3,0), (3,5)等），操作算子就是倒满、倒空、从一个桶倒入另一个桶等动作。</p>
+                <div class="img-placeholder">[此处应插入图片：倒水问题或八数码问题的状态空间图示例，见课件第 201-203 页]</div>
+            </div>
+
+            <div class="collapsible" id="kp-search-algorithms">
+                <h2>4.2 人工智能问题求解方法 (搜索算法)</h2>
+            </div>
+            <div class="content">
+                <p>在状态空间中寻找解的路径，本质上是一个搜索过程。搜索算法是传统AI的核心。</p>
+                <h3>盲目搜索 (Uninformed Search)</h3>
+                <p>也称无信息搜索，它只知道状态和操作，对目标状态的位置等信息一无所知，只能系统地遍历状态空间。</p>
+                <ul>
+                    <li><strong>广度优先搜索 (BFS)</strong>：像水波纹一样，从初始节点开始，逐层向外扩展。它首先访问所有距离为1的节点，然后是所有距离为2的节点，以此类推。
+                        <br><strong>特点</strong>：只要有解，一定能找到，并且找到的是最短路径（在每步代价相同时），但空间复杂度高，需要存储大量待扩展的节点。</li>
+                    <li><strong>深度优先搜索 (DFS)</strong>：沿着一条路径“钻牛角尖”式地向下探索，直到达到一个叶子节点或无法再扩展，然后回溯到上一个节点，探索其他分支。
+                        <br><strong>特点</strong>：空间复杂度低，但可能陷入无限循环或找到一个非最优解。</li>
+                </ul>
+                <div class="img-placeholder">[此处应插入图片：广度优先与深度优先的搜索过程示意图，见课件第 210 页]</div>
+                <h3>启发式搜索 (Heuristic/Informed Search)</h3>
+                <p>启发式搜索在搜索过程中利用了与问题相关的<span class="key-term">启发性信息</span>（例如，评估当前状态距离目标状态有多近），从而更智能地选择要扩展的节点，避免不必要的搜索，大大提高效率。</p>
+                <p><strong>评价函数</strong>：通常表示为 $f(n) = g(n) + h(n)$</p>
+                <ul>
+                    <li>$g(n)$：从初始节点到当前节点 $n$ 的实际代价。</li>
+                    <li>$h(n)$：从当前节点 $n$ 到目标节点的<span class="key-term">估计代价</span>（启发函数）。这是启发式搜索的核心。</li>
+                </ul>
+            </div>
+            
+            <div class="collapsible" id="kp-ml-transition">
+                <h2>4.3 从问题求解到机器学习</h2>
+            </div>
+            <div class="content">
+                <h3>两种范式的区别 </h3>
+                <p>传统的问题求解方法与机器学习代表了两种不同的AI实现思路。</p>
+                <ul>
+                    <li><strong>传统AI (符号主义)</strong>：依赖人类专家明确地定义好规则、知识和求解算法。计算机的角色是忠实地执行这些预设的规则。例如，国际象棋程序中的规则和搜索算法都是人设计的。</li>
+                    <li><strong>机器学习 (联结主义)</strong>：不再依赖人类设计具体规则，而是让计算机<span class="key-term">从大量数据中自动学习</span>出一个模型（函数）。这个模型本身就蕴含了解决问题的“规则”。例如，通过学习海量棋谱，模型能自己“领悟”出下棋的策略。</li>
+                </ul>
+                <h3>机器学习的定义 </h3>
+                <p>已知一个包含输入X和对应标签Y的数据集，机器学习就是通过计算机寻找一个数学模型F，使得对于所有的输入X，模型的预测值 Y' = F(X) 能够尽可能地逼近真实标签Y。这个寻找模型F的过程就叫“学习”或“训练”。</p>
+            </div>
+
+            <div class="collapsible" id="kp-ml-fundamentals">
+                <h2>4.4 机器学习基础</h2>
+            </div>
+            <div class="content">
+                <h3>机器学习的分类</h3>
+                <p>根据训练数据和学习方式的不同，机器学习主要分为三类：</p>
+                <ol>
+                    <li><strong>监督学习 (Supervised Learning)</strong>：训练数据是<span class="key-term">有标签的</span>（即每个输入样本都有一个正确的输出答案）。模型的目标是学习输入到输出的映射关系。主要分为：
+                        <ul>
+                            <li><strong>回归 (Regression)</strong>：预测一个连续的数值输出。例如：预测明天的气温。</li>
+                            <li><strong>分类 (Classification)</strong>：预测一个离散的类别标签。例如：判断一封邮件是否为垃圾邮件。</li>
+                        </ul>
+                    </li>
+                    <li><strong>无监督学习 (Unsupervised Learning)</strong>：训练数据是<span class="key-term">没有标签的</span>。模型的目标是发现数据中内在的结构或模式。主要分为：
+                        <ul>
+                            <li><strong>聚类 (Clustering)</strong>：将相似的数据点分到同一个组。</li>
+                            <li><strong>降维 (Dimensionality Reduction)</strong>：在保留主要信息的同时，减少数据的特征维度。</li>
+                        </ul>
+                    </li>
+                    <li><strong>强化学习 (Reinforcement Learning)</strong>：模型（智能体）通过与环境的互动来学习。智能体采取行动，环境给予奖励或惩罚，智能体的目标是学习一个能最大化长期累积奖励的策略。</li>
+                </ol>
+                <h3>过拟合 (Overfitting) </h3>
+                <p>过拟合是机器学习中的一个核心挑战，指模型在<span class="key-term">训练集上表现优异，但在未见过的测试集上表现糟糕</span>的现象。其本质是模型过于复杂，学习到了训练数据中的噪声和偶然特征，而不是普适的规律，导致其<span class="key-term">泛化能力</span>差。</p>
+                <p><strong>解决方法：</strong></p>
+                <ul>
+                    <li><strong>增加数据量</strong>：最有效但成本也最高的方法。</li>
+                    <li><strong>交叉验证 (Cross-Validation)</strong>：一种更稳健的模型评估方法，通过将数据集划分为多份，轮流作为训练集和验证集，可以有效防止模型偶然在某个特定测试集上表现好。</li>
+                    <li><strong>正则化 (Regularization)</strong>：在损失函数中加入一个惩罚项（如L1或L2范数），来限制模型权重的大小，从而降低模型复杂度。</li>
+                    <li><span class="key-term">Dropout</span>：在训练神经网络时，以一定的概率随机地“丢弃”（即暂时使其不工作）一部分神经元。这强迫网络不能过度依赖任何一个神经元，从而学习到更鲁棒的特征组合。</li>
+                    <li><strong>提前终止 (Early Stopping)</strong>：在训练过程中，持续监控模型在验证集上的性能，当性能不再提升甚至开始下降时，就停止训练，以防止过拟合。</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第五章: 回归与分类模型 (详细资料)</title>
+    <style>
+        :root {
+            --primary-color: #005f87; /* 浙大蓝 */
+            --secondary-color: #f7f9fa;
+            --font-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #fff;
+            --nav-width: 260px; /* 导航栏宽度 */
+            --accent-color: #d9534f;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.8;
+            color: var(--font-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        .vertical-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--header-bg);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .vertical-navbar .nav-header {
+            padding: 10px 20px 20px 20px;
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .vertical-navbar .nav-header a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        .vertical-navbar a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--font-color);
+            transition: background-color 0.3s;
+            border-left: 3px solid transparent;
+        }
+        .vertical-navbar a:hover {
+            background-color: var(--secondary-color);
+        }
+        .vertical-navbar a.active {
+            font-weight: bold;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: #eaf2f5;
+        }
+        .main-content {
+            margin-left: var(--nav-width);
+            padding: 20px 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .collapsible {
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            background-color: #fff;
+            position: relative;
+        }
+        .collapsible h2 {
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        .collapsible::after {
+            content: '\\25BC'; /* Down arrow */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .collapsible.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #fdfdfd;
+        }
+        .collapsible:hover {
+            background-color: #f0f5f8;
+        }
+        .key-term {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .img-placeholder {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+
+    <nav class="vertical-navbar">
+        <div class="nav-header">
+            <a href="index.html">考前冲刺主页</a>
+        </div>
+        <a href="chapter_01.html">Ch1-导论</a>
+        <a href="chapter_02.html">Ch2-系统基础</a>
+        <a href="chapter_03.html">Ch3-开发基础</a>
+        <a href="chapter_04.html">Ch4-问题求解</a>
+        <a href="chapter_05.html" class="active">Ch5-回归与分类</a>
+        <a href="chapter_06.html">Ch6-聚类与降维</a>
+        <a href="chapter_07.html">Ch7-深度网络</a>
+        <a href="chapter_08.html">Ch8-CNN</a>
+        <a href="chapter_09.html">Ch9-RNN</a>
+        <a href="chapter_10.html">Ch10-综合实践</a>
+        <a href="chapter_11.html">Ch11-NLP</a>
+        <a href="chapter_12.html">Ch12-LLM</a>
+        <a href="chapter_13.html">Ch13-多模态</a>
+        <a href="index.html#code-appendix">常用代码速查</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>第五章: 回归与分类模型 (详细资料)</h1>
+
+            <div class="collapsible" id="kp-supervised-learning">
+                <h2>5.1 监督学习概述</h2>
+            </div>
+            <div class="content">
+                <p>监督学习是机器学习最主要和最成功的领域之一。其核心特征是使用<span class="key-term">带标签的数据</span>进行训练。 每一条训练数据都包含一个输入特征(X)和一个期望的输出标签(Y)。模型的目标就是学习一个从输入X到输出Y的映射函数 $f$。</p>
+                <p>根据输出标签Y的类型，监督学习主要分为两大任务：</p>
+                <ul>
+                    <li><strong>回归 (Regression)</strong>：当Y是<span class="key-term">连续的数值</span>时，任务就是回归。例如，预测房价、气温、股票价格等。</li>
+                    <li><strong>分类 (Classification)</strong>：当Y是<span class="key-term">离散的类别</span>时，任务就是分类。例如，判断邮件是否为垃圾邮件（二分类）、识别图片中的动物种类（多分类）。</li>
+                </ul>
+                <p><strong>没有免费午餐定理 (No Free Lunch Theorem)</strong>：这个定理在监督学习中尤为重要，它告诉我们，没有任何一个模型（如线性回归、决策树或深度神经网络）能够在所有监督学习任务上都表现最佳。因此，必须根据具体问题的数据特性和任务目标来选择最合适的模型。</p>
+            </div>
+
+            <div class="collapsible" id="kp-regression-models">
+                <h2>5.2 回归模型</h2>
+            </div>
+            <div class="content">
+                <h3>线性回归 (Linear Regression)</h3>
+                <p>线性回归是回归任务中最基础和最经典的模型。它假设输入特征X和输出Y之间存在一个线性的关系。</p>
+                <ul>
+                    <li><strong>一元线性回归</strong>：当只有一个输入特征时，模型为一条直线：$y = wx + b$。</li>
+                    <li><strong>多元线性回归</strong>：当有多个输入特征时，模型为一个超平面：$y = w_1x_1 + w_2x_2 + \dots + w_nx_n + b = \mathbf{w}^T\mathbf{x} + b$。</li>
+                </ul>
+                <p><strong>目标</strong>：寻找最优的参数 $w$ 和 $b$，使得模型预测值与真实值之间的差距最小。这个“差距”通常用<span class="key-term">损失函数</span>来衡量。</p>
+                <p><strong>损失函数与求解</strong>：线性回归通常使用<span class="key-term">均方误差 (Mean Squared Error, MSE)</span>作为损失函数。目标是最小化所有训练样本的预测误差平方和的均值。这个求解过程称为<span class="key-term">最小二乘法</span>。</p>
+                
+                <h3>非线性回归 (Non-linear Regression)</h3>
+                <p>当数据点之间的关系明显不是线性时，就需要使用非线性模型来拟合。例如，可以使用多项式函数来拟合曲线关系，或者使用更复杂的模型如神经网络。</p>
+                 <div class="img-placeholder">[此处应插入图片：线性回归拟合直线与非线性回归拟合曲线的对比图，见课件第 241, 242 页]</div>
+            </div>
+
+            <div class="collapsible" id="kp-classification-models">
+                <h2>5.3 分类模型</h2>
+            </div>
+            <div class="content">
+                <h3>逻辑回归 (Logistic Regression)</h3>
+                <p>尽管名字里有“回归”，但逻辑回归是一个非常经典的<span class="key-term">二分类</span>算法。</p>
+                <ul>
+                    <li><strong>核心思想</strong>：它在线性回归模型的基础上，套用了一个<span class="key-term">Sigmoid激活函数</span>。Sigmoid函数能将任意实数输出压缩到(0, 1)区间，这个输出值可以被看作是样本属于正类的<span class="key-term">概率</span>。</li>
+                    <li><strong>决策边界</strong>：通过设定一个阈值（通常为0.5），当模型输出的概率大于该阈值时，样本被分为正类；否则为负类。这个过程实际上是学习一个线性的决策边界来划分数据。</li>
+                </ul>
+
+                <h3>决策树 (Decision Tree)</h3>
+                <p>决策树是一种直观的、基于规则的分类模型，其结构像一棵倒置的树。</p>
+                <ul>
+                    <li><strong>结构</strong>：每个内部节点代表对一个特征的判断，每个分支代表一个判断结果，每个叶节点代表一个最终的类别。</li>
+                    <li><strong>构建过程</strong>：决策树的构建是一个递归的过程。核心在于每一步如何选择<span class="key-term">最优的划分特征</span>。常用的标准是<span class="key-term">信息增益</span>。
+                        <ul>
+                            <li><strong>信息熵</strong>：度量一个数据集的“纯度”或不确定性。熵越小，数据集越纯（即包含的类别越单一）。</li>
+                            <li><strong>信息增益</strong>：指使用某个特征进行划分后，整个系统信息熵的下降程度。信息增益越大，说明用该特征划分的效果越好，不确定性减少得越多。决策树会优先选择信息增益最大的特征作为当前节点。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="img-placeholder">[此处应插入图片：决策树的结构示意图，见课件第 246 页]</div>
+
+                <h3>其他常用分类算法</h3>
+                <ul>
+                    <li><strong>随机森林 (Random Forest)</strong>：一种集成学习方法，通过构建多棵决策树并让它们投票来进行预测，通常比单棵决策树更准确、更鲁棒。</li>
+                    <li><strong>朴素贝叶斯 (Naive Bayes)</strong>：基于贝叶斯定理，并做了一个“朴素”的假设：即所有特征之间<span class="key-term">相互独立</span>。这个假设简化了计算，使得算法在文本分类（如垃圾邮件过滤）等场景中非常高效。</li>
+                    <li><strong>支持向量机 (SVM)</strong>：试图在数据点之间找到一个最优的超平面作为决策边界，其优化的目标是使不同类别中距离该超平面最近的数据点（即支持向量）到该超平面的<span class="key-term">间隔(margin)最大化</span>。</li>
+                    <li><strong>K-最近邻 (KNN)</strong>：一种“懒惰学习”算法。它不建立显式的模型，而是通过计算待分类点与训练集中所有点的距离，找出距离最近的K个点，然后根据这K个点的类别进行投票来决定新点的类别。</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(coll => {
+                coll.addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            });
+            // KaTeX rendering
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ]
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
